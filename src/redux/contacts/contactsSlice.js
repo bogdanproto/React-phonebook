@@ -6,7 +6,7 @@ import {
   handleFulfilledAdd,
   handleFulfilledDelete,
   handlePending,
-} from 'reduxFunctions/statusChangers';
+} from 'reduxFunctions/stateContactsChangers';
 
 const contactsSlice = createSlice({
   name: 'contacts',

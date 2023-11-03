@@ -1,23 +1,12 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 import { Form, Label } from './ContactForm.styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { selectContacts } from 'redux/selectors';
-import { addContact } from 'redux/operations';
-
-const schema = yup.object({
-  name: yup.string().required('Name is required').trim(),
-  phone: yup
-    .number()
-    .typeError("That doesn't look like a phone number")
-    .positive("A phone number can't start with a minus")
-    .integer("A phone number can't include a decimal point")
-    .min(8)
-    .required('A phone number is required'),
-});
+import { selectContacts } from 'redux/contacts/selectors';
+import { addContact } from 'redux/contacts/operations';
+import { schemaContactForm } from 'utils/shema';
 
 export const ContactForm = () => {
   const {
@@ -26,13 +15,17 @@ export const ContactForm = () => {
     reset,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schemaContactForm),
   });
 
   const items = useSelector(selectContacts);
   const dispatch = useDispatch();
 
-  const onSubmit = data => {
+  const onSubmit = preData => {
+    const data = {
+      name: preData.name,
+      number: preData.phone,
+    };
     const isContactExist = items.some(
       ({ name }) => name.toLowerCase() === data.name.toLowerCase()
     );

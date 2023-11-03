@@ -1,30 +1,76 @@
 import styled from 'styled-components';
+import { TiDelete } from 'react-icons/ti';
 
 export const ContactItem = styled.li`
   display: flex;
+  justify-content: space-between;
   align-items: center;
 
   margin-bottom: 12px;
 
-  font-size: 12px;
-  font-weight: bold;
+  font-size: 14px;
 
   button {
-    min-width: 64px;
-    height: 18px;
-    padding: 2px 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
 
-    text-transform: capitalize;
-
-    background-color: #e4dbdb;
-    border-radius: 5px;
+    background-color: #ffffff;
+    border-radius: 50%;
     cursor: pointer;
     border: none;
-    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
   }
 `;
 
 export const ContactBox = styled.div`
-  min-width: 260px;
-  height: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+`;
+
+export const ContactBoxText = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+`;
+
+export const NameContact = styled.p`
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  color: rgba(51, 51, 51, 1);
+`;
+
+export const PhoneContact = styled.p`
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  color: rgba(51, 51, 51, 0.7);
+`;
+
+export const DeleteIconStyled = styled(TiDelete)`
+  width: 20px;
+  height: 20px;
+  color: #ab0404;
+  cursor: pointer;
+
+  &:hover {
+    color: #ff0404;
+  }
+`;
+
+export const Avatar = styled.div`
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: lightgrey;
+  overflow: hidden;
+  svg {
+    width: 32px;
+    height: 32px;
+  }
 `;

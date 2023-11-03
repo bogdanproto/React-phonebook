@@ -1,11 +1,12 @@
-import { addData, deleteData, getData } from 'api/api';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { herokuApi } from 'utils/apiSetting';
 
 export const fetchContacts = createAsyncThunk(
   'contacts/fetchAllContacts',
   async (_, thunkAPI) => {
     try {
-      return await getData();
+      const { data } = await herokuApi.get('contacts');
+      return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -14,9 +15,10 @@ export const fetchContacts = createAsyncThunk(
 
 export const addContact = createAsyncThunk(
   'contacts/addContact',
-  async (data, thunkAPI) => {
+  async (obj, thunkAPI) => {
     try {
-      return await addData(data);
+      const { data } = await herokuApi.post('contacts', obj);
+      return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -27,7 +29,8 @@ export const deleteContact = createAsyncThunk(
   'contacts/deleteContact',
   async (id, thunkAPI) => {
     try {
-      return await deleteData(id);
+      const { data } = await herokuApi.delete(`contacts/${id}`);
+      return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }

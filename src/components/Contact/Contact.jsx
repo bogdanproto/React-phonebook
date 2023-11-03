@@ -1,23 +1,35 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { ContactItem, ContactBox } from './Contact.styled';
-import { deleteContact } from 'redux/operations';
-import { selectLoader } from 'redux/selectors';
 import { useRef } from 'react';
+import {
+  ContactItem,
+  ContactBox,
+  DeleteIconStyled,
+  PhoneContact,
+  NameContact,
+  ContactBoxText,
+  Avatar,
+} from './Contact.styled';
+import { deleteContact } from 'redux/contacts/operations';
+import { selectLoader } from 'redux/contacts/selectors';
 
-export const Contact = ({ id, name, phone }) => {
+export const Contact = ({ id, name, phone, avatar }) => {
   const isLoading = useSelector(selectLoader);
   const dispatch = useDispatch();
   const ref = useRef();
 
   const handleDelete = evt => {
-    ref.current = evt.target.id;
-    dispatch(deleteContact(evt.target.id));
+    ref.current = evt.currentTarget.id;
+    dispatch(deleteContact(ref.current));
   };
 
   return (
     <ContactItem>
       <ContactBox>
-        {name}: {phone}
+        <Avatar>{avatar}</Avatar>
+        <ContactBoxText>
+          <NameContact>{name}</NameContact>
+          <PhoneContact>{phone} </PhoneContact>
+        </ContactBoxText>
       </ContactBox>
       <button
         id={id}
@@ -25,7 +37,7 @@ export const Contact = ({ id, name, phone }) => {
         onClick={handleDelete}
         disabled={isLoading && ref.current === id}
       >
-        Delete
+        <DeleteIconStyled />
       </button>
     </ContactItem>
   );

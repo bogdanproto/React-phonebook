@@ -1,29 +1,45 @@
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { ContactForm } from 'components/ContactForm/ContactForm';
-import { ContactList } from 'components/ContactList/ContactList';
-import { Filter } from 'components/Filter/Filter';
-import { PhoneBook } from './App.styled';
-import { selectError, selectLoader } from 'redux/selectors';
-import { useSelector } from 'react-redux';
-import Loader from 'components/Loader/Loader';
-import Error from 'components/Error/Error';
+import { SharedLayout } from 'components/SharedLayout/SharedLayout';
+import { Home } from 'pages/Home/Home';
+import { LogIn } from 'pages/Login/LogIn';
+import { PhoneBook } from 'pages/PhoneBook/PhoneBook';
+import { PrivateRoute } from 'pages/PrivateRoute';
+import { ResrictedRoute } from 'pages/RestrictedRoute';
+import { SignIn } from 'pages/SignIn/SignIn';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { Route, Routes } from 'react-router-dom';
+import { refreshUser } from 'redux/userAuth/operations';
 
 export const App = () => {
-  const isLoading = useSelector(selectLoader);
-  const error = useSelector(selectError);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(refreshUser());
+  }, [dispatch]);
+
   return (
-    <>
-      {isLoading && <Loader />}
-      <PhoneBook>
-        <h2>Phonebook</h2>
-        <ContactForm />
-        <h3>Contacts</h3>
-        <Filter />
-        <ContactList />
-        {error && <Error />}
-      </PhoneBook>
-      <ToastContainer />
-    </>
+    <Routes>
+      <Route path="/" element={<SharedLayout />}>
+        <Route index element={<Home />} />
+        <Route
+          path="/login"
+          element={
+            <ResrictedRoute redirectTo="/phonebook" component={<LogIn />} />
+          }
+        />
+        <Route
+          path="/signin"
+          element={
+            <ResrictedRoute redirectTo="/phonebook" component={<SignIn />} />
+          }
+        />
+        <Route
+          path="/phonebook"
+          element={
+            <PrivateRoute redirectTo="/login" component={<PhoneBook />} />
+          }
+        />
+      </Route>
+    </Routes>
   );
 };
