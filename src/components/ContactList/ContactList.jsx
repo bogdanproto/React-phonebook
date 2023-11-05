@@ -1,15 +1,9 @@
-import { Contact } from 'components/Contact/Contact';
-import { ContactListStyled } from './ContactList.styled';
-import {
-  FcBusinessman,
-  FcBusinesswoman,
-  FcManager,
-  FcAssistant,
-  FcCustomerSupport,
-} from 'react-icons/fc';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toFilter } from 'utils/filter';
-import { useEffect } from 'react';
+import iconsSet from 'utils/icons';
+import { Contact } from 'components/Contact/Contact';
+import { ContactListStyled, ContactsListText } from './ContactList.styled';
 import { fetchContacts } from 'redux/contacts/operations';
 import {
   selectContacts,
@@ -24,7 +18,12 @@ export const ContactList = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchContacts());
+    const controller = new AbortController();
+    dispatch(fetchContacts(controller.signal));
+
+    return () => {
+      controller.abort();
+    };
   }, [dispatch]);
 
   const filtredContacts = toFilter(items, filter);
@@ -33,19 +32,21 @@ export const ContactList = () => {
     <ContactListStyled>
       {Boolean(items.length) &&
         (filtredContacts.length ? (
-          filtredContacts.map(({ id, name, number }) => (
+          filtredContacts.map(({ id, name, number }, idx) => (
             <Contact
               key={id}
               id={id}
               name={name}
               phone={number}
-              avatar={<FcBusinessman />}
+              avatar={iconsSet[idx % iconsSet.length]}
             />
           ))
         ) : (
-          <p>Contacts not found</p>
+          <ContactsListText>Contacts not found</ContactsListText>
         ))}
-      {!items.length && !isLoading && <p>Contacts list is empty</p>}
+      {!items.length && !isLoading && (
+        <ContactsListText>Contacts list is empty</ContactsListText>
+      )}
     </ContactListStyled>
   );
 };

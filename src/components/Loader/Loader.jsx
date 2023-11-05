@@ -1,21 +1,10 @@
-import { ThreeDots } from 'react-loader-spinner';
-import LoaderStyled from './Loader.styled';
+import { BarLoader } from 'react-spinners';
+import { LoaderStyled } from './Loader.styled';
 
-const Loader = () => {
+export const Loader = () => {
   return (
     <LoaderStyled>
-      <ThreeDots
-        height="48"
-        width="48"
-        radius="9"
-        color="#404143"
-        ariaLabel="three-dots-loading"
-        wrapperStyle={{}}
-        wrapperClassName=""
-        visible={true}
-      />
+      <BarLoader color="#60c0ac96" width="100%" />
     </LoaderStyled>
   );
 };
-
-export default Loader;

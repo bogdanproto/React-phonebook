@@ -1,14 +1,14 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Form, Label } from './ContactForm.styled';
+import { ButtonBox, ContactFormStyled, Label } from './ContactForm.styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { selectContacts } from 'redux/contacts/selectors';
 import { addContact } from 'redux/contacts/operations';
 import { schemaContactForm } from 'utils/shema';
 
-export const ContactForm = () => {
+export const ContactForm = ({ closeCreateContact, isCreateMenuOpen }) => {
   const {
     register,
     handleSubmit,
@@ -21,7 +21,7 @@ export const ContactForm = () => {
   const items = useSelector(selectContacts);
   const dispatch = useDispatch();
 
-  const onSubmit = preData => {
+  const onSubmit = async preData => {
     const data = {
       name: preData.name,
       number: preData.phone,
@@ -35,14 +35,21 @@ export const ContactForm = () => {
       return;
     }
 
-    dispatch(addContact(data));
+    const isFullField = await dispatch(addContact(data));
+    if (isFullField) {
+      closeCreateContact();
+    }
+
     reset();
   };
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <ContactFormStyled
+      onSubmit={handleSubmit(onSubmit)}
+      $isCreateMenuOpen={isCreateMenuOpen}
+    >
       <Label>
-        Name
+        FullName
         <input {...register('name')} />
         <p>{errors.name?.message}</p>
       </Label>
@@ -51,7 +58,12 @@ export const ContactForm = () => {
         <input {...register('phone')} />
         <p>{errors.phone?.message}</p>
       </Label>
-      <button type="submit">Add contact</button>
-    </Form>
+      <ButtonBox>
+        <button type="submit">Create</button>
+        <button type="button" onClick={closeCreateContact}>
+          Close
+        </button>
+      </ButtonBox>
+    </ContactFormStyled>
   );
 };

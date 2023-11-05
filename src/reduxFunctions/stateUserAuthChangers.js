@@ -2,11 +2,12 @@
 
 export const handleFulPendingSigInLogIn = state => {
   state.isRefreshing = true;
+  state.errorAuth = { status: null, data: null };
 };
 export const handleFulfilledSigInLogIn = (state, action) => {
   const { user, token } = action.payload;
   state.isRefreshing = false;
-  state.errorAuth = null;
+  state.errorAuth = { status: null, data: null };
   state.token = token;
   state.user = user;
   state.isLoggedIn = true;
@@ -20,13 +21,14 @@ export const handleRejectedSigInLogIn = (state, action) => {
 
 export const handlePendingLogOut = state => {
   state.isRefreshing = true;
+  state.errorAuth = { status: null, data: null };
 };
 
 export const handleFulfilledLogOut = state => {
   state.user = { name: null, email: null };
   state.token = null;
   state.isLoggedIn = false;
-  state.errorAuth = null;
+  state.errorAuth = { status: null, data: null };
   state.isRefreshing = false;
 };
 
@@ -38,13 +40,13 @@ export const handleRejectedLogOut = (state, action) => {
 //--------------Refresh User-----------------
 export const handlePendingRefresh = state => {
   state.isRefreshing = true;
-  state.errorAuth = null;
+  state.errorAuth = { status: null, data: null };
 };
 
 export const handleFulfilledRefresh = (state, action) => {
   state.user = action.payload;
   state.isLoggedIn = true;
-  state.errorAuth = null;
+  state.errorAuth = { status: null, data: null };
   state.isRefreshing = false;
 };
 

@@ -18,7 +18,7 @@ const userSlice = createSlice({
     user: { name: null, email: null },
     token: null,
     isLoggedIn: false,
-    errorAuth: null,
+    errorAuth: { status: null, data: null },
     isRefreshing: null,
   },
   extraReducers: builder => {

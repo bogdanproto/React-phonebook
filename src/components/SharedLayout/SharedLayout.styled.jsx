@@ -7,8 +7,11 @@ export const Container = styled.div`
 `;
 
 export const SpaceApp = styled.div`
+  position: relative;
   width: 360px;
   height: 780px;
+
+  overflow: hidden;
 
   background-color: #ffffff;
   border-radius: 20px;

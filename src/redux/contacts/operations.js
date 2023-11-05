@@ -3,11 +3,14 @@ import { herokuApi } from 'utils/apiSetting';
 
 export const fetchContacts = createAsyncThunk(
   'contacts/fetchAllContacts',
-  async (_, thunkAPI) => {
+  async (signal, thunkAPI) => {
     try {
-      const { data } = await herokuApi.get('contacts');
+      const { data } = await herokuApi.get('contacts', { signal });
       return data;
     } catch (error) {
+      if (error.code === 'ERR_CANCELED') {
+        return thunkAPI.rejectWithValue(null);
+      }
       return thunkAPI.rejectWithValue(error.message);
     }
   }

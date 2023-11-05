@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { deleteAuthToken, herokuApi, setAuthToken } from 'utils/apiSetting';
+import { prepareErrorObj } from 'utils/handlersError';
 
 export const signInUser = createAsyncThunk(
   'userAuth/signInUser',
@@ -9,7 +10,8 @@ export const signInUser = createAsyncThunk(
       setAuthToken(data.token);
       return data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      const { status, data } = error.response;
+      return thunkAPI.rejectWithValue(prepareErrorObj(status, data));
     }
   }
 );
@@ -22,7 +24,8 @@ export const logInUser = createAsyncThunk(
       setAuthToken(data.token);
       return data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      const { status } = error.response;
+      return thunkAPI.rejectWithValue(prepareErrorObj(status));
     }
   }
 );
@@ -47,7 +50,7 @@ export const refreshUser = createAsyncThunk(
     } = thunkAPI.getState();
 
     if (!token) {
-      return thunkAPI.rejectWithValue('Please logIn');
+      return thunkAPI.rejectWithValue(prepareErrorObj(401));
     }
 
     try {
@@ -55,7 +58,7 @@ export const refreshUser = createAsyncThunk(
       const { data } = await herokuApi.get('/users/current');
       return data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      return thunkAPI.rejectWithValue(prepareErrorObj(error.response.status));
     }
   }
 );

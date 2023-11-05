@@ -7,8 +7,11 @@ export const ContactItem = styled.li`
   align-items: center;
 
   margin-bottom: 12px;
+  padding-bottom: 10px;
 
   font-size: 14px;
+
+  border-bottom: 1px solid rgba(51, 51, 51, 0.2);
 
   button {
     display: flex;

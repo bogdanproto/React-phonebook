@@ -1,15 +1,24 @@
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { ErrorStyled } from './Error.styled';
+import { toast } from 'react-toastify';
 import { selectError } from 'redux/contacts/selectors';
+import { selectStatusAuth } from 'redux/userAuth/selectors';
+import { errorsAuthCode } from 'utils/consts';
 
 export const Error = () => {
+  const { errorAuth } = useSelector(selectStatusAuth);
   const error = useSelector(selectError);
-  return (
-    <ErrorStyled>
-      <p>Something went wrong, try to reload the page</p>
-      <p>{error}</p>
-    </ErrorStyled>
-  );
-};
 
-export default Error;
+  useEffect(() => {
+    if (errorAuth?.status === errorsAuthCode.BADTOKEN) {
+      return;
+    }
+    toast.error(errorAuth?.message);
+
+    if (error) {
+      toast.error('Something went wrong, please try again');
+    }
+  }, [error, errorAuth]);
+
+  return null;
+};

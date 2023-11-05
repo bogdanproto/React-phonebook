@@ -47,4 +47,12 @@ export const FormStyled = styled.form`
       transition: transform 0.1s;
     }
   }
+  p {
+    position: absolute;
+    display: block;
+    padding: 8px;
+
+    font-size: 12px;
+    color: red;
+  }
 `;

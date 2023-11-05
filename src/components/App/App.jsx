@@ -1,14 +1,16 @@
+import { lazy, useEffect } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import Home from 'pages/Home/Home';
 import { SharedLayout } from 'components/SharedLayout/SharedLayout';
-import { Home } from 'pages/Home/Home';
-import { LogIn } from 'pages/Login/LogIn';
-import { PhoneBook } from 'pages/PhoneBook/PhoneBook';
 import { PrivateRoute } from 'pages/PrivateRoute';
 import { ResrictedRoute } from 'pages/RestrictedRoute';
-import { SignIn } from 'pages/SignIn/SignIn';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { Route, Routes } from 'react-router-dom';
 import { refreshUser } from 'redux/userAuth/operations';
+import { routes } from 'utils/consts';
+
+const PhonebookPage = lazy(() => import('../../pages/PhoneBook/PhoneBook'));
+const LogInPage = lazy(() => import('../../pages/Login/LogIn'));
+const SigInPage = lazy(() => import('../../pages/SignIn/SignIn'));
 
 export const App = () => {
   const dispatch = useDispatch();
@@ -19,24 +21,33 @@ export const App = () => {
 
   return (
     <Routes>
-      <Route path="/" element={<SharedLayout />}>
+      <Route path={routes.HOME} element={<SharedLayout />}>
         <Route index element={<Home />} />
         <Route
-          path="/login"
+          path={routes.LOGIN}
           element={
-            <ResrictedRoute redirectTo="/phonebook" component={<LogIn />} />
+            <ResrictedRoute
+              redirectTo={routes.PHONEBOOK}
+              component={<LogInPage />}
+            />
           }
         />
         <Route
-          path="/signin"
+          path={routes.SIGIN}
           element={
-            <ResrictedRoute redirectTo="/phonebook" component={<SignIn />} />
+            <ResrictedRoute
+              redirectTo={routes.PHONEBOOK}
+              component={<SigInPage />}
+            />
           }
         />
         <Route
-          path="/phonebook"
+          path={routes.PHONEBOOK}
           element={
-            <PrivateRoute redirectTo="/login" component={<PhoneBook />} />
+            <PrivateRoute
+              redirectTo={routes.LOGIN}
+              component={<PhonebookPage />}
+            />
           }
         />
       </Route>

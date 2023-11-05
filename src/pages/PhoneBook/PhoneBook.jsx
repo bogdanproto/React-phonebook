@@ -1,17 +1,24 @@
 import { useSelector } from 'react-redux';
-import { PhoneBookHeader, PhoneBookStyled } from './PhoneBook.styled';
+import { useState } from 'react';
+import {
+  AddButton,
+  AddIconStyled,
+  PhoneBookHeader,
+  PhoneBookStyled,
+} from './PhoneBook.styled';
 
 import { Filter } from 'components/Filter/Filter';
 import { ContactList } from 'components/ContactList/ContactList';
-import Error from 'components/Error/Error';
-import { selectError } from 'redux/contacts/selectors';
 import { LogOut } from 'components/LogOut/LogOut';
 import { selectStatusAuth } from 'redux/userAuth/selectors';
 import { ContactForm } from 'components/ContactForm/ContactForm';
 
-export const PhoneBook = () => {
-  const error = useSelector(selectError);
+const PhoneBook = () => {
+  const [isCreateMenuOpen, setCreateMenuOpen] = useState(false);
   const { isLoggedIn } = useSelector(selectStatusAuth);
+
+  const hadleCloseMenu = () => setCreateMenuOpen(!isCreateMenuOpen);
+
   return (
     <PhoneBookStyled>
       <PhoneBookHeader>
@@ -19,10 +26,19 @@ export const PhoneBook = () => {
         <LogOut />
       </PhoneBookHeader>
       <Filter />
-      <ContactForm />
+
+      <ContactForm
+        closeCreateContact={hadleCloseMenu}
+        isCreateMenuOpen={isCreateMenuOpen}
+      />
+
       <p>Contacts</p>
       {isLoggedIn && <ContactList />}
-      {error && <Error />}
+      <AddButton onClick={hadleCloseMenu}>
+        <AddIconStyled />
+      </AddButton>
     </PhoneBookStyled>
   );
 };
+
+export default PhoneBook;

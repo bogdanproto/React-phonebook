@@ -10,7 +10,7 @@ export const SigninForm = () => {
   const {
     register,
     handleSubmit,
-    reset,
+
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schemaSigninForm),
@@ -20,7 +20,6 @@ export const SigninForm = () => {
 
   const onSubmit = data => {
     dispatch(signInUser(data));
-    reset();
   };
 
   return (
@@ -30,10 +29,7 @@ export const SigninForm = () => {
         <p>{errors.name?.message}</p>
       </label>
       <label>
-        <input
-          {...register('email')}
-          placeholder="Enter Your Username / Email"
-        />
+        <input {...register('email')} placeholder="Enter Your Email" />
         <p>{errors.email?.message}</p>
       </label>
       <label>

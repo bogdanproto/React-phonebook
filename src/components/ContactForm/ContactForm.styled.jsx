@@ -1,45 +1,91 @@
 import styled from 'styled-components';
 
-export const Form = styled.form`
+export const ContactFormStyled = styled.form`
+  position: absolute;
+  z-index: 3;
+  bottom: -260px;
   display: flex;
   flex-direction: column;
-  width: 320px;
+  gap: 8px;
 
-  padding: 16px;
-  margin-top: 12px;
-  margin-bottom: 12px;
+  width: 312px;
+  padding: 20px;
 
-  border: 1px solid #dedede;
+  border-radius: 5px;
+  box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 1);
+
+  transition: transform 0.3s ease;
+
+  transform: translateY(
+    ${({ $isCreateMenuOpen }) => $isCreateMenuOpen && '-280px'}
+  );
+
+  input {
+    width: 100%;
+    height: 36px;
+    padding: 8px;
+
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.4);
+    background: rgba(255, 255, 255, 0.08);
+  }
 
   button {
-    width: 128px;
-    padding: 4px 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 36px;
 
-    text-transform: capitalize;
+    padding: 10px 20px;
+    margin-top: 16px;
+    margin-bottom: 16px;
 
-    background-color: #e4dbdb;
-    border-radius: 5px;
     cursor: pointer;
-    border: none;
-    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.4);
+    background-color: rgba(14, 100, 210, 0.9);
+    color: rgba(255, 255, 255, 0.9);
+
+    transition: background-color 0.3s, color 0.3s;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+
+    &:hover {
+      background-color: rgba(14, 100, 210, 1);
+    }
+
+    &:active {
+      background-color: rgba(14, 100, 210, 1);
+      transform: scale(0.98);
+      transition: transform 0.1s;
+    }
   }
 `;
 
 export const Label = styled.label`
   display: block;
 
-  margin-bottom: 8px;
-
   font-size: 12px;
   font-weight: bold;
-
-  input {
-    display: block;
-    width: 100%;
-    border: 1px solid #dedede;
-  }
 
   p {
     color: red;
   }
+`;
+
+export const ButtonBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+
+  font-size: 12px;
+  font-weight: bold;
 `;

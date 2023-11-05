@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 
-const LoaderStyled = styled.div`
+export const LoaderStyled = styled.div`
   position: absolute;
-  left: 450px;
+  width: 100%;
 `;
-
-export default LoaderStyled;

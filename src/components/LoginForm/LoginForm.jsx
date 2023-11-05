@@ -1,4 +1,3 @@
-import React from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { schemaLoginForm } from 'utils/shema';
@@ -10,26 +9,20 @@ export const LoginForm = () => {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schemaLoginForm),
   });
-
   const dispatch = useDispatch();
 
   const onSubmit = data => {
     dispatch(logInUser(data));
-    reset();
   };
 
   return (
     <FormStyled onSubmit={handleSubmit(onSubmit)}>
       <label>
-        <input
-          {...register('email')}
-          placeholder="Enter Your Username / Email"
-        />
+        <input {...register('email')} placeholder="Enter Your Email" />
         <p>{errors.email?.message}</p>
       </label>
       <label>
