@@ -1,9 +1,9 @@
 import { LoginForm } from 'components/LoginForm/LoginForm';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { LogInStyled, LoginRegisterBox, NavLinkStyled } from './Login.styled';
 import { routes } from 'utils/consts';
-import { useDispatch, useSelector } from 'react-redux';
 import { selectStatusAuth } from 'redux/userAuth/selectors';
-import { useEffect } from 'react';
 import { clearContacts } from 'redux/contacts/contactsSlice';
 
 const LogIn = () => {

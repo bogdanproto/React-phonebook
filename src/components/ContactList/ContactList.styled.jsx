@@ -6,7 +6,7 @@ export const ContactListStyled = styled.ul`
 
   padding-bottom: 40px;
 
-  height: 580px;
+  height: 450px;
   overflow: auto;
 
   &::-webkit-scrollbar {
